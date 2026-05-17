@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analisys-ai-engine
+  namespace: analisys-incident-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: analisys-ai-engine
+  template:
+    metadata:
+      labels:
+        app: analisys-ai-engine
+    spec:
+      serviceAccountName: default
+      containers:
+      - name: api
+        image: analisys-ai-engine:v1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - secretRef:
+            name: analisys-ai-secrets
